@@ -8,6 +8,7 @@ class ID3():
     
     def __init__(self,col_names):
         '''
+        Constructor of the class
         col_names: column names of attributes
         '''
         self.col_names = col_names
@@ -150,7 +151,10 @@ class ID3():
 
     
     def fit(self,X,y):
-        self.tree = self.build_tree(self.transform_structure(X,y))
+        '''
+        It is needed by the cross_val_score
+        '''
+        self.tree = self.build_tree(self.transform_structure(X,y)) # save tree as class variable
         
         
     def classify(self,tree,new_example):
@@ -175,11 +179,14 @@ class ID3():
   
     def predict(self,X):
         '''
-        Predict on the training instances
+        Predict on the training instances. cross_val_looks for fit(), predict() and get_params
         '''
-        X = self.transform_structure(X)
-        return [(self.classify(self.tree,i)) for i in X]
+        X = self.transform_structure(X) # transform the structure
+        return [(self.classify(self.tree,i)) for i in X] # classify on every single instance
     
     
     def get_params(self, deep = False):
+        '''
+        get the parameters of the model. Needed for with cross_val_score()
+        '''
         return {'col_names':self.col_names}
